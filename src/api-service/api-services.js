@@ -9,5 +9,9 @@ const ApiCall = {
     const { data } = await axios.post("/posts", post);
     return data;
   },
+  deletePost: async (id) => {
+    const { data } = await axios.delete(`/posts/${id}`);
+    return data;
+  },
 };
 export default ApiCall;

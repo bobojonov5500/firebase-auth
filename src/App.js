@@ -7,6 +7,8 @@ import Navbar from "./components/navbar";
 import Dashboard from "./auth/dashboard";
 import PrivateRoute from "./components/private-route";
 import CreatePost from "./components/create-post";
+import { Bounce, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   const routes = ["/register", "/login", "/404"];
@@ -21,7 +23,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/404" element={<h5>page not found</h5>} />
-          <Route path="/create-post" element={<CreatePost/>} />
+          <Route path="/create-post" element={<CreatePost />} />
           <Route
             path="/dashboard"
             element={
@@ -32,6 +34,19 @@ function App() {
           />
           <Route path="*" element={<Navigate to="/404" />} />
         </Routes>
+        <ToastContainer
+          position="top-right"
+          autoClose={1000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="colored"
+          transition={Bounce}
+        />
       </div>
     </>
   );
