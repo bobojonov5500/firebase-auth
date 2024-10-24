@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import moment from "moment";
 import ApiCall from "../api-service/api-services";
 import { Bounce, toast } from "react-toastify";
+import { AuthContext } from "../context/auth-context";
 const Card = ({ item, refetch }) => {
+  const { isAuth } = useContext(AuthContext);
   const DeletePost = async (id) => {
     try {
       await ApiCall.deletePost(id);
@@ -33,15 +35,21 @@ const Card = ({ item, refetch }) => {
         <p>{item.some_text}</p>
       </div>
       <div className="flex gap-2   flex-wrap mt-1">
-        <button className=" py-1 rounded-md text-white active:text-black px-3 bg-green-500">
-          Edit
-        </button>
-        <button
-          onClick={() => DeletePost(item.id)}
-          className=" py-1 rounded-md text-white active:text-black px-3 bg-red-500"
-        >
-          Delete
-        </button>
+        {isAuth ? (
+          <>
+            <button className=" py-1 rounded-md text-white active:text-black px-3 bg-green-500">
+              Edit
+            </button>
+            <button
+              onClick={() => DeletePost(item.id)}
+              className=" py-1 rounded-md text-white active:text-black px-3 bg-red-500"
+            >
+              Delete
+            </button>
+          </>
+        ) : (
+          ""
+        )}
         <button className=" py-1 rounded-md text-white active:text-black px-3 bg-yellow-500">
           View
         </button>

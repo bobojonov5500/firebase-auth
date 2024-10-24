@@ -12,7 +12,6 @@ const Home = () => {
       refetchOnWindowFocus: false,
     }
   );
-
   if (isLoading) {
     return (
       <div className="max-w-full flex justify-center items-center h-screen">
