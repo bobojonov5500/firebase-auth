@@ -9,6 +9,7 @@ import PrivateRoute from "./components/private-route";
 import CreatePost from "./components/create-post";
 import { Bounce, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import EditPost from "./components/edit-post";
 
 function App() {
   const routes = ["/register", "/login", "/404"];
@@ -24,6 +25,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/404" element={<h5>page not found</h5>} />
           <Route path="/create-post" element={<CreatePost />} />
+          <Route path="/edit-post/:id" element={<EditPost />} />
           <Route
             path="/dashboard"
             element={

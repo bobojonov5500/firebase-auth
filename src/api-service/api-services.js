@@ -13,5 +13,13 @@ const ApiCall = {
     const { data } = await axios.delete(`/posts/${id}`);
     return data;
   },
+  getPost: async (id) => {
+    const { data } = await axios.get(`/posts/${id}`);
+    return data;
+  },
+  editPost: async (id, newText) => {
+    const { data } = await axios.put(`/posts/${id}`, { some_text: newText });
+    return data;
+  },
 };
 export default ApiCall;

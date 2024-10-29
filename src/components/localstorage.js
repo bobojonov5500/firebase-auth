@@ -1,5 +1,5 @@
-const setItem = (user) => {
-  localStorage.setItem("user", user);
+const setItem = (key, user) => {
+  localStorage.setItem(key, user);
 };
 const getItem = (key) => {
   return localStorage.getItem(key);

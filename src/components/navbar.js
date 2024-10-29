@@ -10,7 +10,6 @@ const Navbar = () => {
     LogOut();
     setIsAuth(false);
   };
-
   return (
     <div className="top-0  backdrop-blur-sm bg-slate-500/80 sticky">
       <div className="flex max-w-screen-2xl mx-auto justify-between py-3 text-gray-50 px-5 ">
@@ -24,7 +23,9 @@ const Navbar = () => {
                 create post
               </Link>
               <Link className="hover:underline" to={"/dashboard"}>
-                {currentUser?.email}
+                {currentUser?.displayName
+                  ? currentUser?.displayName
+                  : currentUser?.email}
               </Link>
             </div>
           )}

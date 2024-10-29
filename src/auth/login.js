@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/auth-context";
 
 const Login = () => {
-  const { Login, setIsAuth } = useContext(AuthContext);
+  const { Login, setIsAuth, signInWithGoogle } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -28,6 +28,7 @@ const Login = () => {
       setLoading(false);
     }
   };
+
   return (
     <div className="mt-20 px-3">
       <form
@@ -64,6 +65,9 @@ const Login = () => {
         </div>
         {error ? <p className="mt-2 text-left text-red-500"> {error}</p> : ""}
       </form>
+      <div>
+        <button onClick={signInWithGoogle}>sign in with google</button>
+      </div>
     </div>
   );
 };
