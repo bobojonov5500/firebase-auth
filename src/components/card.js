@@ -5,7 +5,7 @@ import { Bounce, toast } from "react-toastify";
 import { AuthContext } from "../context/auth-context";
 import { useNavigate } from "react-router-dom";
 const Card = ({ item, refetch }) => {
-  const { isAuth } = useContext(AuthContext);
+  const {  currentUser } = useContext(AuthContext);
   const naviagte = useNavigate();
   const DeletePost = async (id) => {
     try {
@@ -37,7 +37,7 @@ const Card = ({ item, refetch }) => {
         <p>{item.some_text}</p>
       </div>
       <div className="flex gap-2   flex-wrap mt-1">
-        {isAuth ? (
+        {currentUser?.uid === item?.user_id ? (
           <>
             <button
               onClick={() => naviagte(`/edit-post/${item?.id}`)}

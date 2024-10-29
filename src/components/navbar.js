@@ -5,7 +5,8 @@ import "../style/navbar.css";
 import { getItem } from "./localstorage";
 
 const Navbar = () => {
-  const { isAuth, LogOut, setIsAuth, currentUser } = useContext(AuthContext);
+  const { LogOut, setIsAuth, currentUser } = useContext(AuthContext);
+  const isAuth = !!getItem("accessToken");
   const HandleLogout = async () => {
     LogOut();
     setIsAuth(false);

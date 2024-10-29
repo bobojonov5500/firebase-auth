@@ -29,12 +29,13 @@ export const AuthProvider = ({ children }) => {
     return signOut(auth).then(() => {
       clearItem("username");
       clearItem("accessToken");
+      setCurrentUser("");
     });
   };
 
   const signInWithGoogle = async () => {
     try {
-       await signInWithPopup(auth, provider);
+      await signInWithPopup(auth, provider);
       navigate("/");
     } catch (error) {
       console.error("Xatolik:", error);
