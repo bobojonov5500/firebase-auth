@@ -1,23 +1,27 @@
 import React, { createContext, useEffect, useState } from "react";
 import {
   createUserWithEmailAndPassword,
+  fetchSignInMethodsForEmail,
+  GithubAuthProvider,
+  linkWithCredential,
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
 } from "firebase/auth";
-import { app, auth } from "../firebase";
-import { getItem, setItem, clearItem } from "../components/localstorage";
+import { auth } from "../firebase";
+import { setItem, clearItem } from "../components/localstorage";
 import { GoogleAuthProvider } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { Bounce, toast } from "react-toastify";
 
 export const AuthContext = createContext();
+const githubProvider = new GithubAuthProvider();
 const provider = new GoogleAuthProvider();
 export const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
   const [isAuth, setIsAuth] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
-
+  const [isModal, setIsModal] = useState(false);
   const Register = (email, password) => {
     return createUserWithEmailAndPassword(auth, email, password);
   };
@@ -31,7 +35,7 @@ export const AuthProvider = ({ children }) => {
       clearItem("username");
       clearItem("accessToken");
       setCurrentUser("");
-      toast("log out successfully", {
+      toast.success("log out successfully", {
         position: "top-right",
         autoClose: 1000,
         hideProgressBar: false,
@@ -49,7 +53,7 @@ export const AuthProvider = ({ children }) => {
     try {
       await signInWithPopup(auth, provider);
       navigate("/");
-      toast("log in successfully", {
+      toast.success("log in successfully", {
         position: "top-right",
         autoClose: 1000,
         hideProgressBar: false,
@@ -62,6 +66,53 @@ export const AuthProvider = ({ children }) => {
       });
     } catch (error) {
       console.error("Xatolik:", error);
+    }
+  };
+  const SignInWithGithub = async () => {
+    try {
+       await signInWithPopup(auth, githubProvider);
+      navigate("/");
+      toast.success("Logged in with GitHub successfully", {
+        position: "top-right",
+        autoClose: 1000,
+        theme: "colored",
+        transition: Bounce,
+      });
+    } catch (error) {
+      if (error.code === "auth/account-exists-with-different-credential") {
+        const email = error.customData.email;
+        const signInMethods = await fetchSignInMethodsForEmail(auth, email);
+
+        if (signInMethods.includes("google.com")) {
+          const credential = GithubAuthProvider.credentialFromError(error);
+          const googleCredential = GoogleAuthProvider.credentialFromError(
+            error
+          );
+          try {
+            await linkWithCredential(auth.currentUser, googleCredential);
+            await linkWithCredential(auth.currentUser, credential);
+            setIsAuth(true);
+            navigate("/");
+          } catch (linkError) {
+            console.error("Linking error:", linkError);
+          }
+        } else {
+          toast.error("Account already exists with a different credential", {
+            position: "top-right",
+            autoClose: 1000,
+            theme: "colored",
+            transition: Bounce,
+          });
+        }
+      } else {
+        console.error("Error:", error.message);
+        toast.error("An error occurred. Please try again.", {
+          position: "top-right",
+          autoClose: 1000,
+          theme: "colored",
+          transition: Bounce,
+        });
+      }
     }
   };
 
@@ -79,6 +130,12 @@ export const AuthProvider = ({ children }) => {
     return unsubscribe;
   }, []);
 
+  const OpenModal = () => {
+    setIsModal(true);
+  };
+  const CloseModal = () => {
+    setIsModal(false);
+  };
   const value = {
     Register,
     Login,
@@ -87,6 +144,10 @@ export const AuthProvider = ({ children }) => {
     LogOut,
     currentUser,
     signInWithGoogle,
+    SignInWithGithub,
+    OpenModal,
+    CloseModal,
+    isModal,
   };
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

@@ -26,6 +26,7 @@ function App() {
           <Route path="/404" element={<h5>page not found</h5>} />
           <Route path="/create-post" element={<CreatePost />} />
           <Route path="/edit-post/:id" element={<EditPost />} />
+          <Route path="/home" element={<Navigate to="/" />} />
           <Route
             path="/dashboard"
             element={

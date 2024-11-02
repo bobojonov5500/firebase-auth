@@ -5,12 +5,14 @@ import "../style/navbar.css";
 import { getItem } from "./localstorage";
 
 const Navbar = () => {
-  const { LogOut, setIsAuth, currentUser } = useContext(AuthContext);
+  const { LogOut, setIsAuth, currentUser,OpenModal } = useContext(AuthContext);
   const isAuth = !!getItem("accessToken");
+
   const HandleLogout = async () => {
     LogOut();
     setIsAuth(false);
   };
+ 
   return (
     <div className="top-0  backdrop-blur-sm bg-slate-500/80 sticky">
       <div className="flex max-w-screen-2xl mx-auto justify-between py-3 text-gray-50 px-5 ">
@@ -18,6 +20,7 @@ const Navbar = () => {
           Home
         </Link>
         <div className="flex gap-3 textcolor">
+          <button onClick={OpenModal}>modal</button>
           {isAuth && (
             <div className="flex gap-3">
               <Link className="hover:underline" to={"/create-post"}>

@@ -3,10 +3,13 @@ import Input from "../input/input";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/auth-context";
 import { FaGoogle } from "react-icons/fa";
+import { FaGithub } from "react-icons/fa";
 import { Bounce, toast } from "react-toastify";
 
 const Login = () => {
-  const { Login, setIsAuth, signInWithGoogle } = useContext(AuthContext);
+  const { Login, setIsAuth, signInWithGoogle, SignInWithGithub } = useContext(
+    AuthContext
+  );
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -78,7 +81,7 @@ const Login = () => {
         </div>
         {error ? <p className="mt-2 text-left text-red-500"> {error}</p> : ""}
         <button
-          className="mx-auto mt-3 flex items-center text-white gap-2 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          className="mx-auto mt-3 flex justify-center items-center text-white gap-2 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           onClick={(e) => {
             e.preventDefault();
             signInWithGoogle();
@@ -86,6 +89,16 @@ const Login = () => {
         >
           <FaGoogle />
           Log in with Google
+        </button>
+        <button
+          className="mx-auto mt-3 justify-center flex items-center text-white gap-2 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          onClick={(e) => {
+            e.preventDefault();
+            SignInWithGithub();
+          }}
+        >
+          <FaGithub />
+          Log in with Github
         </button>
       </form>
     </div>

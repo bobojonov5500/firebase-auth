@@ -2,10 +2,15 @@ import React, { useContext, useState } from "react";
 import Input from "../input/input";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/auth-context";
+import { FaGithub, FaGoogle } from "react-icons/fa";
 const Register = () => {
-
   const navigate = useNavigate();
-  const { Register, setIsAuth } = useContext(AuthContext);
+  const {
+    Register,
+    setIsAuth,
+    signInWithGoogle,
+    SignInWithGithub,
+  } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
   const [password, setPassword] = useState("");
@@ -68,6 +73,26 @@ const Register = () => {
             if you have an account
           </Link>
         </div>
+        <button
+          className="mx-auto mt-3 justify-center flex items-center text-white gap-2 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          onClick={(e) => {
+            e.preventDefault();
+            signInWithGoogle();
+          }}
+        >
+          <FaGoogle />
+          Log in with Google
+        </button>
+        <button
+          className="mx-auto mt-3 justify-center flex items-center text-white gap-2 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          onClick={(e) => {
+            e.preventDefault();
+            SignInWithGithub();
+          }}
+        >
+          <FaGithub />
+          Log in with Github
+        </button>
         {error ? <p className=" mt-2 text-red-500">{error}</p> : ""}
       </form>
     </div>
