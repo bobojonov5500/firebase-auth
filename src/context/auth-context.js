@@ -9,12 +9,13 @@ import { app, auth } from "../firebase";
 import { getItem, setItem, clearItem } from "../components/localstorage";
 import { GoogleAuthProvider } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
+import { Bounce, toast } from "react-toastify";
 
 export const AuthContext = createContext();
 const provider = new GoogleAuthProvider();
 export const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
-  const [isAuth, setIsAuth] = useState(!!getItem("accessToken"));
+  const [isAuth, setIsAuth] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
 
   const Register = (email, password) => {
@@ -30,6 +31,17 @@ export const AuthProvider = ({ children }) => {
       clearItem("username");
       clearItem("accessToken");
       setCurrentUser("");
+      toast("log out successfully", {
+        position: "top-right",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        transition: Bounce,
+      });
     });
   };
 
@@ -37,6 +49,17 @@ export const AuthProvider = ({ children }) => {
     try {
       await signInWithPopup(auth, provider);
       navigate("/");
+      toast("log in successfully", {
+        position: "top-right",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        transition: Bounce,
+      });
     } catch (error) {
       console.error("Xatolik:", error);
     }
@@ -48,6 +71,9 @@ export const AuthProvider = ({ children }) => {
         setItem("username", user?.displayName || user?.email);
         setItem("accessToken", user?.accessToken);
         setCurrentUser(user);
+        setIsAuth(true);
+      } else {
+        setIsAuth(false);
       }
     });
     return unsubscribe;
